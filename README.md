@@ -2,7 +2,7 @@
 
 Hardware-adaptive LLM inference framework for Finnish language learning content.
 Runs on **Apple Silicon** (M1/M2/M3), **NVIDIA GPUs**, and **CPU-only** machines
-via [Ollama](https://ollama.com) — no cloud, no API keys, no cost.
+via [Ollama](https://ollama.com).
 
 Built for [Lingo Deck](https://github.com/Wirlaa/LingoDeck) — a Finnish language
 learning card game.
