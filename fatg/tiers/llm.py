@@ -42,29 +42,22 @@ QUEST_SYSTEM_PROMPT = """You are a Finnish language learning content generator.
 You generate fill-in-the-blank sentences for language learners.
 You always respond with valid JSON only. No explanation, no markdown, just JSON."""
 
-QUEST_PROMPT_TEMPLATE = """Generate a fill-in-the-blank Finnish language learning question.
+QUEST_PROMPT_TEMPLATE = """Create a Finnish language exercise. Use the word "{target_word}" in a sentence.
 
-Scenario: {scenario}
-Target word: {target_word}
-Difficulty: {difficulty} (0.0 = beginner, 1.0 = advanced)
+Context: {scenario}
+Difficulty: {difficulty} (0.0=easy, 1.0=hard)
 
-Rules:
-1. Write a natural Finnish sentence for the scenario that contains the target word
-2. The target_fi must appear EXACTLY in sentence_fi (so it can be blanked out)
-3. Use the grammatically correct inflected form of the word for the sentence
-4. Write 3 plausible but wrong Finnish distractors (real words, same word class)
-5. sentence_en must be a natural English translation of sentence_fi
-6. target_en is the English translation of the target Finnish word/form
+IMPORTANT: The value of "target_fi" MUST appear word-for-word inside "sentence_fi".
 
-Respond ONLY with this JSON:
+Return ONLY this JSON:
 {{
-  "sentence_fi": "the full Finnish sentence",
-  "sentence_en": "the full English translation",
-  "target_fi": "the exact word/form to blank out",
-  "target_en": "English translation of target",
-  "distractor_1_fi": "wrong option 1",
-  "distractor_2_fi": "wrong option 2",
-  "distractor_3_fi": "wrong option 3"
+  "sentence_fi": "a Finnish sentence containing {target_word}",
+  "sentence_en": "English translation of the sentence",
+  "target_fi": "{target_word}",
+  "target_en": "English meaning of {target_word}",
+  "distractor_1_fi": "wrong Finnish word 1",
+  "distractor_2_fi": "wrong Finnish word 2",
+  "distractor_3_fi": "wrong Finnish word 3"
 }}"""
 
 KELA_SYSTEM_PROMPT = """You are a Finnish language learning content generator specialised

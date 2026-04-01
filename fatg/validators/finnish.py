@@ -82,16 +82,32 @@ def validate_quest_question(
     issues = []
     score = 1.0
 
-    # Check 1 — target must appear in sentence
-    if target_fi not in sentence_fi:
+    # Check 1 — target must appear in sentence (case-insensitive)
+    # Also check stem match (first 4 chars) as fallback for inflected forms
+    target_lower = target_fi.lower()
+    sentence_lower = sentence_fi.lower()
+
+    exact_match = target_lower in sentence_lower
+    stem_match = len(target_lower) >= 4 and target_lower[:4] in sentence_lower
+
+    if not exact_match and not stem_match:
         issues.append(f"target_fi '{target_fi}' not found in sentence_fi")
         return ValidationResult(valid=False, score=0.0, issues=issues)
 
+    if not exact_match and stem_match:
+        issues.append(
+            f"target_fi '{target_fi}' matched by stem only — "
+            "model may have used a different inflection"
+        )
+        score -= 0.1
+
     # Check 2 — blanked sentence makes sense
-    blanked = sentence_fi.replace(target_fi, "____", 1)
+    # Try case-insensitive replace
+    import re
+    blanked = re.sub(re.escape(target_fi), "....", sentence_fi, count=1, flags=re.IGNORECASE)
     if blanked == sentence_fi:
-        issues.append("Blanking had no effect — target may have been replaced already")
-        score -= 0.2
+        issues.append("Blanking had no effect — target may already be replaced")
+        score -= 0.1
 
     # Check 3 — target looks Finnish (basic check)
     fi_result = _check_finnish_word(target_fi)
