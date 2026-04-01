@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fatg"
+version = "0.1.0"
+description = "Finnish Adaptive Tiered Generation — hardware-adaptive LLM inference for Finnish language learning content"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Shivansh Singh", email = "shivansh@example.com" }
+]
+keywords = [
+    "llm", "finnish", "nlp", "language-learning",
+    "ollama", "apple-silicon", "inference", "adaptive"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.27.0",
+]
+
+[project.optional-dependencies]
+voikko = ["libvoikko>=3.0"]
+psutil = ["psutil>=5.9.0"]
+all = ["libvoikko>=3.0", "psutil>=5.9.0"]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "hatch>=1.9",
+    "twine>=5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Misha-17/fatg"
+Repository = "https://github.com/Misha-17/fatg"
+Issues = "https://github.com/Misha-17/fatg/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fatg"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
